@@ -30,8 +30,8 @@
          data_mapper/1, 
          map/0]).
 
--export([test/0, 
-         tests/0]).
+% -export([test/0, 
+%          tests/0]).
 
 -type sax_callback_fun() :: fun((erlsom:sax_event(), any()) -> any()).
 
@@ -299,31 +299,31 @@ new_state(Namefun) ->
 
 %%% A few simple tests
 
-test() ->
-    Xml = 
-        <<"<L1>"
-        "   <L2_1 attribute=\"attr_value\" attr2=\"v2\">text L2_1 nr 1</L2_1>"
-        "   <L2_1>text L2_1 nr 2</L2_1>"
-        "   <empty/>"
-        "   <L2_2>text L2_2</L2_2>Mixed"
-        "   <L2_3>"
-        "        <L3>text L3</L3>"
-        "   </L2_3>"
-        "</L1>">>,
-    {ok, Map, _} = erlsom:parse_sax(Xml, undefined, 
-                                    fun callback/2, [{output_encoding, utf8}]),
-    Map.
+% test() ->
+%     Xml = 
+%        <<"<L1>"
+%        "   <L2_1 attribute=\"attr_value\" attr2=\"v2\">text L2_1 nr 1</L2_1>"
+%        "   <L2_1>text L2_1 nr 2</L2_1>"
+%        "   <empty/>"
+%        "   <L2_2>text L2_2</L2_2>Mixed"
+%        "   <L2_3>"
+%        "        <L3>text L3</L3>"
+%        "   </L2_3>"
+%        "</L1>">>,
+%     {ok, Map, _} = erlsom:parse_sax(Xml, undefined, 
+%                                     fun callback/2, [{output_encoding, utf8}]),
+%     Map.
 
-tests() ->
-    Cases = [
-        {<<"<e/>">>, #{"e" => undefined}},
-        {<<"<e>text</e>">>, #{"e" => <<"text">>}},
-        {<<"<e name=\"value\"/>">>, #{"e" => #{"@name" => <<"value">>}}},
-        {<<"<e name=\"value\">text</e>">>, #{"e" => #{"@name" => <<"value">>, "#text" => <<"text">>}}},
-        {<<"<e><a>text</a><b>text</b></e>">>, #{"e" => #{"a" => <<"text">>, "b" => <<"text">>}}},
-        {<<"<e><a>text</a><a>text</a></e>">>, #{"e" => #{"a" => [<<"text">>, <<"text">>] }}},
-        {<<"<e>text<a>text</a></e>">>, #{"e" => #{"#text" => <<"text">>, "a" => <<"text">>}}}],
-    [test_case(Case) || Case <- Cases].
+% tests() ->
+%     Cases = [
+%        {<<"<e/>">>, #{"e" => undefined}},
+%        {<<"<e>text</e>">>, #{"e" => <<"text">>}},
+%        {<<"<e name=\"value\"/>">>, #{"e" => #{"@name" => <<"value">>}}},
+%        {<<"<e name=\"value\">text</e>">>, #{"e" => #{"@name" => <<"value">>, "#text" => <<"text">>}}},
+%        {<<"<e><a>text</a><b>text</b></e>">>, #{"e" => #{"a" => <<"text">>, "b" => <<"text">>}}},
+%        {<<"<e><a>text</a><a>text</a></e>">>, #{"e" => #{"a" => [<<"text">>, <<"text">>] }}},
+%        {<<"<e>text<a>text</a></e>">>, #{"e" => #{"#text" => <<"text">>, "a" => <<"text">>}}}],
+%     [test_case(Case) || Case <- Cases].
 
 test_case({Xml, Result}) ->
     {Skip_fun, Skip_start} = skip(fixed),
